@@ -13,7 +13,7 @@
 #include "lockoutTimer.h"
 #include "detector.h"
 
-#define FUDGE_FACTOR 10
+#define FUDGE_FACTOR 100
 #define TRANSMITTER_TICK_MULTIPLIER 3	// Call the tick function this many times for each ADC interrupt.
 
 int sampleCount = 0;
@@ -49,7 +49,7 @@ void detector()
 			sampleCount = 0;
 			sampleCount2++;
 			bool debug = false;
-			if(sampleCount2 == 30000)
+			if(sampleCount2 == 10000)
 			{
 				sampleCount2 = 0;
 				debug = true;
@@ -57,26 +57,19 @@ void detector()
 			filter_firFilter();
 			if(debug)
 			{
-				debugCount++;
-				if(debugCount == 4)
-				{
-					interrupts_disableArmInts();
-					filter_printQueues();
-				}
-				//printf("adc value: %.3e", scaledAdcValue);
 				printf("Power values: ");
 			}
 			for(int filterNumber = 0; filterNumber < FILTER_IIR_FILTER_COUNT; filterNumber++)
 			{
 				filter_iirFilter(filterNumber);
-				double power = filter_computePower(filterNumber, false, (debugCount == 4)); //TODO: switch
+				double power = filter_computePower(filterNumber, false, false);
 				if(debug)
 					printf("%9.2e ", power);
 			}
 			if(debug)
 				printf("\r\n");
 			filter_getSortedPowerValues(sortedPowerValues, correspondingPlayers);
-			if(/*!lockoutTimer_running() &&*/ sortedPowerValues[0] > sortedPowerValues[4] * FUDGE_FACTOR)
+			if(lockoutTimer_running() && sortedPowerValues[0] > sortedPowerValues[4] * FUDGE_FACTOR)
 			{
 				lockoutTimer_start();
 				hitDetected = true;
