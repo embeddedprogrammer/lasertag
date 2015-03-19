@@ -42,7 +42,7 @@ void detector()
 		uint32_t rawAdcValue = isr_removeDataFromAdcBuffer();
 		interrupts_enableArmInts();
 		double scaledAdcValue = ((double)rawAdcValue) / 4096;
-		filter_addNewInput(/*scaledAdcValue*/ 0);
+		filter_addNewInput(scaledAdcValue);
 		sampleCount++;
 		if(sampleCount == FILTER_FIR_DECIMATION_FACTOR)
 		{

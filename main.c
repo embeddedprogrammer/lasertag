@@ -130,7 +130,6 @@ void continuousPowerMode()
 			countInterruptsViaInterruptsIsrFlag++;// Keep track of the interrupt-count based on the global flag.
 			interrupts_isrFlagGlobal = 0;			// Reset the global flag.
 			detector();						// Run filters, compute power, etc.
-			//TODO: fix
 			filter_getNormalizedPowerValues(normalizedPowerValues, &indexOfMaxValue);// This normalizes power between 1 and 0.
 
 			if (histogramSystemTicks >= SYSTEM_TICKS_PER_HISTOGRAM_UPDATE)

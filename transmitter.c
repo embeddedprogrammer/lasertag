@@ -22,7 +22,6 @@ void transmitter_init()
 {
 	transmitter_state = initial_st;
 	mio_setPinAsOutput(TRANSMITTER_LED_PIN);
-	transmitter_setFrequencyNumber(0); //TODO: REMOVE?
 }
 
 static bool enabled;
@@ -99,16 +98,8 @@ void transmitter_tick()
 	switch (transmitter_state)
 	{
 	case initial_st:
-//		transmitter_state = transmit_st;
-//		halfPeriodDuration = frequency[frequencyPlayerNumber];
 		if(enabled || continuousMode)
 		{
-//			if(frequencyInHz == 0)
-//			{
-//				printf("Warning: Transmitter frequency not yet set.\r\n");
-//				enabled = false;
-//				break;
-//			}
 			transmitter_state = transmit_st;
 			halfPeriodDuration = frequency[frequencyPlayerNumber]; //(int32_t)(GLOBALS_TIMER_FREQUENCY / frequencyInHz / 2 + .5);
 			pulseTimer = 0;
@@ -116,7 +107,7 @@ void transmitter_tick()
 		}
 	break;
 	case transmit_st:
-		if(pulseTimer >= 20000) //PULSE_DURATION)
+		if(pulseTimer >= 20000) //PULSE_DURATION) //This macro for some reason causes data corruption. Float comparison?
 		{
 			zzState = 4;
 			enabled = false;
@@ -128,7 +119,6 @@ void transmitter_tick()
 			zzState = 5;
 			periodTimer = 0;
 			ledOn = !ledOn;
-//			printf("%s", ledOn ? "on\r\n" : "off\r\n");
 			mio_writePin(TRANSMITTER_LED_PIN, ledOn); // Turn on/off LED.
 		}
 	break;

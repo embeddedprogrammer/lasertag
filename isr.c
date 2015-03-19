@@ -82,9 +82,9 @@ uint32_t isr_adcBufferElementCount()
 
 void isr_function()
 {
-	queue_data_t adcData = (queue_data_t) interrupts_getAdcData(); //TODO: Uncomment
-	//addDataToAdcBuffer(adcData);
-	addDataToAdcBuffer(transmitter_getLedOn());
+	queue_data_t adcData = (queue_data_t) interrupts_getAdcData();
+	addDataToAdcBuffer(adcData);
+	//addDataToAdcBuffer(transmitter_getLedOn());
 	isr_totalXadcSampleCount++;
 	// Place tick functions here.
 
