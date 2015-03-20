@@ -72,7 +72,7 @@ void trigger_tick()
 //		printf("%d, %d, %d\r\n", debouncedTriggerValue, currentTriggerValue, enabled);
 		if(debouncedTriggerValue != currentTriggerValue && enabled)
 		{
-			printf("changed\n");
+//			printf("changed\n");
 			debounceTimer = 0;
 			trigger_state = wait_till_steady_st;
 		}
@@ -82,13 +82,13 @@ void trigger_tick()
 		{
 			trigger_state = wait_for_change_st;
 		}
-		else if(debounceTimer >= DEBOUNCE_DURATION)
+		else if(debounceTimer >= 5000) //DEBOUNCE_DURATION)
 		{
 			debouncedTriggerValue = currentTriggerValue;
-			if(debouncedTriggerValue)
-				printf("D\r\n");
-			else
-				printf("U\r\n");
+//			if(debouncedTriggerValue)
+//				printf("D\r\n");
+//			else
+//				printf("U\r\n");
 			if(debouncedTriggerValue && !triggerLockoutTimer_running())
 			{
 				transmitter_run();

@@ -264,18 +264,14 @@ void shooterMode()
 // Default is continuous-power mode. Hold btn2 during reset/power-up to come up in shooter mode.
 int main()
 {
-//	lockoutTimer_runTest();
-//	hitLedTimer_runTest();
-//	transmitter_runTest();
-//	trigger_runTest();
-//	filter_runTest();
-
-
 	buttons_init();
-	if (buttons_read() & BUTTONS_BTN2_MASK)
-		shooterMode();
-	else
-		continuousPowerMode();
+
+	filter_runTest();
+
+//	if (buttons_read() & BUTTONS_BTN2_MASK)
+//		shooterMode();
+//	else
+//		continuousPowerMode();
 }
 
 

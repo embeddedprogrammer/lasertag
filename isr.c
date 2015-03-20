@@ -88,11 +88,11 @@ void isr_function()
 	isr_totalXadcSampleCount++;
 	// Place tick functions here.
 
-	//lockoutTimer_tick();
-	//triggerLockoutTimer_tick();
-	//hitLedTimer_tick();
-	transmitter_tick(); //TODO: Uncomment
-	//trigger_tick();
+	lockoutTimer_tick();
+	triggerLockoutTimer_tick();
+	hitLedTimer_tick();
+	transmitter_tick();
+	trigger_tick();
 
 	// *********** Use this function to read the ADC: interrupts_getAdcData(); ********
 	isr_totalXadcSampleCount++;

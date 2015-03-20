@@ -66,7 +66,7 @@ void hitLedTimer_tick()
 		}
 	break;
 	case ledOn_st:
-		if(ledTimer >= LED_ON_DURATION)
+		if(ledTimer >= 50000) //LED_ON_DURATION)
 		{
 			hitLedTimer_state = ledOff_st;
 			mio_writePin(HIT_INDICATOR_PIN, 0);

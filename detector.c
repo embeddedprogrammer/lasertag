@@ -69,11 +69,14 @@ void detector()
 			if(debug)
 				printf("\r\n");
 			filter_getSortedPowerValues(sortedPowerValues, correspondingPlayers);
-			if(lockoutTimer_running() && sortedPowerValues[0] > sortedPowerValues[4] * FUDGE_FACTOR)
+			if(debug)
+				printf("Largest power factor: %.3f\r\n", sortedPowerValues[9] / sortedPowerValues[5]);
+			if(!lockoutTimer_running() && (sortedPowerValues[9] > (sortedPowerValues[5] * FUDGE_FACTOR)))
 			{
 				lockoutTimer_start();
 				hitDetected = true;
-				hitCounts[correspondingPlayers[0]]++;
+				hitCounts[correspondingPlayers[9]]++;
+				printf("hit detected\r\n");
 			}
 		}
 	}

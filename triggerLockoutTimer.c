@@ -59,7 +59,7 @@ void triggerLockoutTimer_tick()
 		}
 	break;
 	case lockout_st:
-		if(triggerLockoutTimer >= LOCKOUT_DURATION)
+		if(triggerLockoutTimer >= 50000) //LOCKOUT_DURATION)
 		{
 			triggerLockoutTimer_state = wait_st;
 			enabled = false;

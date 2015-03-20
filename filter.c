@@ -244,17 +244,17 @@ double filter_computePower(uint16_t filterNumber, bool forceComputeFromScratch, 
 
 //		if(filterNumber == 0)
 //			printf("before: %e ", currentPowerValue[filterNumber]);
-//		if(isnan(currentPowerValue[filterNumber]))
-//			currentPowerValue[filterNumber] = 0;
+		if(isnan(currentPowerValue[filterNumber]))
+			currentPowerValue[filterNumber] = 0;
 		double elementIn = queue_readElementFromEnd(&zQueue[filterNumber], 0); //TODO: actually do stuff.
 		double elementOut = queue_readElementFromEnd(&zQueue[filterNumber], FILTER_IIR_WINDOW_LENGTH);
 		currentPowerValue[filterNumber] += (elementIn * elementIn);
 		currentPowerValue[filterNumber] -= (elementOut * elementOut);
 //		for(volatile int i = 0; i < 1000; i++);
 
-		if(fabs(previousValue - currentPowerValue[filterNumber]) > 1)
-			printf("before %e after: %e transmitter state: %d\r\n", previousValue,
-					currentPowerValue[filterNumber], transmitter_getState());
+//		if(fabs(previousValue - currentPowerValue[filterNumber]) > 1)
+//			printf("before %e after: %e transmitter state: %d\r\n", previousValue,
+//					currentPowerValue[filterNumber], transmitter_getState());
 //			printf("before %e after: %e\r\n", previousValue,
 //					currentPowerValue[filterNumber]);
 
