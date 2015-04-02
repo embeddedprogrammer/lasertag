@@ -1,6 +1,7 @@
 #include "trigger.h"
 #include "globals.h"
 #include "triggerLockoutTimer.h"
+#include "hitLedTimer.h"
 #include "transmitter.h"
 #include "supportFiles/buttons.h"
 #include "supportFiles/mio.h"
@@ -85,11 +86,7 @@ void trigger_tick()
 		else if(debounceTimer >= 5000) //DEBOUNCE_DURATION)
 		{
 			debouncedTriggerValue = currentTriggerValue;
-//			if(debouncedTriggerValue)
-//				printf("D\r\n");
-//			else
-//				printf("U\r\n");
-			if(debouncedTriggerValue && !triggerLockoutTimer_running())
+			if(debouncedTriggerValue && !triggerLockoutTimer_running() && !hitLedTimer_running())
 			{
 				transmitter_run();
 				triggerLockoutTimer_start();

@@ -58,6 +58,11 @@ void transmitter_setFrequencyNumber(uint16_t frequencyNumber)
 	frequencyPlayerNumber = frequencyNumber;
 }
 
+uint16_t transmitter_getFrequencyNumber()
+{
+	return frequencyPlayerNumber;
+}
+
 static bool ledOn = false;
 
 double transmitter_getLedOn()

@@ -12,6 +12,7 @@
 #include "filter.h"
 #include "lockoutTimer.h"
 #include "detector.h"
+#include "hitLedTimer.h"
 
 #define FUDGE_FACTOR 100
 #define TRANSMITTER_TICK_MULTIPLIER 3	// Call the tick function this many times for each ADC interrupt.
@@ -73,10 +74,11 @@ void detector()
 				printf("Largest power factor: %.3f\r\n", sortedPowerValues[9] / sortedPowerValues[5]);
 			if(!lockoutTimer_running() && (sortedPowerValues[9] > (sortedPowerValues[5] * FUDGE_FACTOR)))
 			{
+				hitLedTimer_start();
 				lockoutTimer_start();
 				hitDetected = true;
 				hitCounts[correspondingPlayers[9]]++;
-				printf("hit detected\r\n");
+				//printf("hit detected\r\n");
 			}
 		}
 	}

@@ -266,12 +266,12 @@ int main()
 {
 	buttons_init();
 
-	filter_runTest();
-
-//	if (buttons_read() & BUTTONS_BTN2_MASK)
-//		shooterMode();
-//	else
-//		continuousPowerMode();
+	if (buttons_read() & BUTTONS_BTN1_MASK)
+		filter_runTest();
+	else if (buttons_read() & BUTTONS_BTN2_MASK)
+		continuousPowerMode();
+	else
+		shooterMode();
 }
 
 

@@ -204,17 +204,7 @@ double filter_iirFilter(uint16_t filterNumber)
 	// Sum y[n]
 	for(int i = 1; i < FILTER_IIR_FILTER_LENGTH; i++)
 		elementSum -= queue_readElementFromEnd(&zQueue[filterNumber], i - 1) * IIR_A_COEFFICIENTS[filterNumber][i];
-//	if(fabs(elementSum) > 1e3) //TODO: Find out why IIR filters are exploding.
-//	{
-//		elementSum = elementSum / fabs(elementSum);
-//	}
-//	else if(isnan(elementSum))
-//	{
-//		elementSum = 0;
-//		printf("Warning: NAN in IIR filter %d!\r\n", filterNumber);
-//	}
 	queue_overwritePush(&zQueue[filterNumber], elementSum);
-	//return elementSum;
 }
 
 // Use this to compute the power for values contained in a queue.
@@ -238,38 +228,26 @@ double filter_computePower(uint16_t filterNumber, bool forceComputeFromScratch, 
 	}
 	else
 	{
-//		interrupts_disableArmInts();
-
 		double previousValue = currentPowerValue[filterNumber];
-
-//		if(filterNumber == 0)
-//			printf("before: %e ", currentPowerValue[filterNumber]);
 		if(isnan(currentPowerValue[filterNumber]))
+		{
 			currentPowerValue[filterNumber] = 0;
+			printf("inf\n");
+		}
 		double elementIn = queue_readElementFromEnd(&zQueue[filterNumber], 0); //TODO: actually do stuff.
 		double elementOut = queue_readElementFromEnd(&zQueue[filterNumber], FILTER_IIR_WINDOW_LENGTH);
 		currentPowerValue[filterNumber] += (elementIn * elementIn);
 		currentPowerValue[filterNumber] -= (elementOut * elementOut);
-//		for(volatile int i = 0; i < 1000; i++);
-
-//		if(fabs(previousValue - currentPowerValue[filterNumber]) > 1)
-//			printf("before %e after: %e transmitter state: %d\r\n", previousValue,
-//					currentPowerValue[filterNumber], transmitter_getState());
-//			printf("before %e after: %e\r\n", previousValue,
-//					currentPowerValue[filterNumber]);
-
-//		if(filterNumber == 0)
-//			printf("after: %e\r\n", currentPowerValue[filterNumber]);
-
-//		interrupts_enableArmInts();
 	}
-//	if(debugPrint)
-//	{
-//	  double runningSeconds;
-//	  intervalTimer_stop(2);
-//	  intervalTimer_getTotalDurationInSeconds(2, &runningSeconds);
-//	  printf("Time to compute power %s: %e\n\r", forceComputeFromScratch ? "from scratch" : "with reused values", runningSeconds);
-//	}
+	if(debugPrint)
+	{
+	  double runningSeconds;
+	  intervalTimer_stop(2);
+	  intervalTimer_getTotalDurationInSeconds(2, &runningSeconds);
+	  printf("Time to compute power %s: %e\n\r", forceComputeFromScratch ? "from scratch" : "with reused values", runningSeconds);
+	}
+	if(filterNumber == transmitter_getFrequencyNumber())
+		currentPowerValue[filterNumber] = 0;
 	return currentPowerValue[filterNumber];
 }
 
